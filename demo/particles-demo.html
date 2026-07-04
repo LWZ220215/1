@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Canvas Particle Skill Demo</title>
+  <style>
+    body { font-family: sans-serif; }
+    canvas { border: 1px solid #ddd; display:block; }
+  </style>
+</head>
+<body>
+  <h1>Canvas Particle System Demo</h1>
+  <canvas id="demo-canvas" width="800" height="300"></canvas>
+  <div>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <label>Emit Rate<input id="emitRate" type="range" min="1" max="200" value="50" /></label>
+  </div>
+
+  <script type="module">
+    import CanvasParticleSkill from '../skills/canvas-particles/index.js';
+    const skill = new CanvasParticleSkill();
+    skill.init();
+    const canvas = document.getElementById('demo-canvas');
+    const id = skill.createEmitter(canvas, {
+      x: 400, y: 150,
+      emitRate: 50,
+      speed: 80,
+      gravity: 0,
+      color: 'rgba(255,200,50,0.9)',
+      size: [2,8],
+      life: [1,2],
+      bounds: { x:0, y:0, w:800, h:300 }
+    });
+
+    document.getElementById('start').onclick = () => skill.start(id);
+    document.getElementById('stop').onclick = () => skill.stop(id);
+    document.getElementById('emitRate').oninput = (e) => skill.updateParams(id, { emitRate: parseInt(e.target.value,10) });
+  </script>
+</body>
+</html>

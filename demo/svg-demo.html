@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>SVG Animation Skill Demo</title>
+  <style>
+    body { font-family: sans-serif; }
+    svg { border: 1px solid #ddd; width: 800px; height: 300px; }
+  </style>
+</head>
+<body>
+  <h1>SVG Animation Skill Demo</h1>
+  <svg id="demo-svg" viewBox="0 0 800 300">
+    <path id="demo-path" d="M50 250 C150 50 650 50 750 250" fill="none" stroke="#eee" stroke-width="2" />
+    <g id="ship" transform="translate(50,250)">
+      <circle cx="0" cy="0" r="12" fill="tomato"></circle>
+    </g>
+  </svg>
+  <div>
+    <button id="play">Play</button>
+    <button id="pause">Pause</button>
+    <button id="stop">Stop</button>
+  </div>
+
+  <script type="module">
+    import SVGAnimationSkill from '../skills/svg-animation/index.js';
+    const skill = new SVGAnimationSkill();
+    skill.init();
+    const svg = document.getElementById('demo-svg');
+    const id = skill.createAnimation({
+      svg,
+      targetSelector: '#ship',
+      type: 'path',
+      pathSelector: '#demo-path',
+      duration: 4000,
+      loop: true,
+      easing: t => (--t)*t*t+1 // easeOutCubic
+    });
+
+    document.getElementById('play').onclick = () => skill.play(id);
+    document.getElementById('pause').onclick = () => skill.pause(id);
+    document.getElementById('stop').onclick = () => skill.stop(id);
+  </script>
+</body>
+</html>
